@@ -1,45 +1,41 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
+
+#include "Renderer2D.h"
+#include "core/Game.h"
 
 int main()
 {
-    if (!glfwInit())
-    {
-        std::cout << "Erro ao iniciar GLFW\n";
-        return -1;
-    }
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwInit();
 
     GLFWwindow* window = glfwCreateWindow(800, 600, "DogRun", NULL, NULL);
-    if (!window)
-    {
-        std::cout << "Erro ao criar janela\n";
-        glfwTerminate();
-        return -1;
-    }
-
     glfwMakeContextCurrent(window);
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Erro ao inicializar GLAD\n";
-        return -1;
-    }
+    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-    std::cout << "OpenGL carregado com sucesso!\n";
+    Renderer2D renderer(800, 600);
+    Game game(800, 600);
+
+    float lastFrame = 0.0f;
 
     while (!glfwWindowShouldClose(window))
     {
+        float currentFrame = glfwGetTime();
+        float deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        game.ProcessInput(window);
+        game.Update(deltaTime);
+
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        game.Render();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
     glfwTerminate();
+    return 0;
 }

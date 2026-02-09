@@ -10,6 +10,8 @@ include_directories(include)
 
 add_executable(DogRun
     src/main.cpp
+    src/core/Game.cpp
+    src/Renderer2D.cpp
     src/glad.c
 )
 

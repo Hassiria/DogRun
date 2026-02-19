@@ -35,6 +35,9 @@ private:
 
     std::vector<Entity*> entities;
     Player* player;
+
+    unsigned int textureGroundBottom;
+    unsigned int textureGroundTop;
 };
 
 #endif

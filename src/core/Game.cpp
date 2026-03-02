@@ -2,11 +2,12 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <string>
 
 Game::Game(int width, int height)
     : screenWidth(width),
       screenHeight(height),
-      state(GameState::Playing),
+      state(GameState::IDLE),
       spawnTimer(0.0f),
       spawnInterval(2.0f),
       score(0.0f),
@@ -22,6 +23,7 @@ Game::Game(int width, int height)
     textureDogDead = renderer->LoadTexture("textures/dog_dead.png");
     textureGameOver = renderer->LoadTexture("textures/game_over.png");
     textureRestart  = renderer->LoadTexture("textures/restart.png");
+    textureStart = renderer->LoadTexture("textures/start.png");
 
     player = new Player({20.0f, 300.0f}, {50.0f, 50.0f}, *renderer);
     entities.push_back(player);
@@ -43,7 +45,11 @@ void Game::ProcessInput(GLFWwindow* window)
     player->ProcessInput(window);
 
     static bool enterPressed = false;
-
+    if (state == GameState::IDLE &&
+        glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+    {
+        state = GameState::Playing;
+    }
     if (state == GameState::GameOver && glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
     {
         if (!enterPressed)
@@ -111,17 +117,16 @@ void Game::Update(float deltaTime)
     }
 
     score += deltaTime * 10.0f;
-
-    // aumenta gradualmente
-    difficultyMultiplier = 1.0f + (score / 400.0f);
-    gameSpeed = initialGameSpeed * difficultyMultiplier;
+    
 }
 
 void Game::Render()
-{
+{   
+    
     float tileSize = 50.0f;
     float groundLevel = 300.0f;
 
+   
     for (float y = 0.0f; y < groundLevel; y += tileSize)
     {
         for (float x = 0.0f; x < (float)screenWidth; x += tileSize)
@@ -150,9 +155,25 @@ void Game::Render()
             e->Render(*renderer);
         }
     }
+    if (state == GameState::IDLE)
+{
+    float width = 500.0f;
+    float height = 250.0f;
+
+    renderer->DrawSprite(
+        textureStart,
+        screenWidth / 2.0f - width / 2.0f,
+        screenHeight / 2.0f - height / 2.0f,
+        width,
+        height
+    );
+
+    return; 
+}
 
     if (state == GameState::GameOver)
     {
+        
         float screenCenterX = screenWidth / 2.0f;
         float screenCenterY = screenHeight / 2.0f;
 

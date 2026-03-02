@@ -47,6 +47,7 @@ private:
     unsigned int textureObstacle;
     unsigned int textureGameOver;
     unsigned int textureRestart;
+    unsigned int textureStart;
 
     std::vector<Obstacle> obstacles;
     float spawnTimer = 0.0f;

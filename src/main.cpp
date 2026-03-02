@@ -33,6 +33,8 @@ int main()
             lastFrame = currentFrame;
             game.ProcessInput(window);
             game.Update(deltaTime);
+            std::string title = "DogRun - Score: " + std::to_string(game.GetScore());
+            glfwSetWindowTitle(window, title.c_str());
 
             glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);

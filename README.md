@@ -41,6 +41,7 @@ Este projeto segue rigorosamente o padrão técnico definido para a disciplina:
 
 ## Como executar pelo código-fonte
 
+- Dentro da pasta raíz
 ```
 rm -rf build
 mkdir build

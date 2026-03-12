@@ -43,6 +43,9 @@ Este projeto segue rigorosamente o padrão técnico definido para a disciplina:
 
 Dentro da pasta DogRun/build:
 ```
+rm -rf build
+mkdir build
+cd build
 cmake ..
 make -j4
 ./DogRun

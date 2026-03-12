@@ -41,8 +41,10 @@ Este projeto segue rigorosamente o padrão técnico definido para a disciplina:
 
 ## Como executar pelo código-fonte
 
-Dentro da pasta DogRun/build:
 ```
+rm -rf build
+mkdir build
+cd build
 cmake ..
 make -j4
 ./DogRun
